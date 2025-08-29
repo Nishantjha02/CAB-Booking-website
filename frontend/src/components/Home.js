@@ -177,9 +177,9 @@ const Home = ({ user, setUser }) => {
             <h3>🚗 Cab Booking App</h3>
             <p>Your reliable ride partner</p>
             <div className="social-links">
-              <a href="#">📘 Facebook</a>
-              <a href="#">🐦 Twitter</a>
-              <a href="#">📷 Instagram</a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">📘 Facebook</a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">🐦 Twitter</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
             </div>
           </div>
           <div className="footer-section">
@@ -193,9 +193,9 @@ const Home = ({ user, setUser }) => {
           <div className="footer-section">
             <h4>Support</h4>
             <ul>
-              <li><a href="#">Help Center</a></li>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">Safety</a></li>
+              <li><a href="mailto:support@cabbooking.com">Help Center</a></li>
+              <li><a href="mailto:support@cabbooking.com">Contact Us</a></li>
+              <li><a href="mailto:support@cabbooking.com">Safety</a></li>
             </ul>
           </div>
           <div className="footer-section">

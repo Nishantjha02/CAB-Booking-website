@@ -203,7 +203,7 @@ const MapBooking = ({ onBookingSubmit }) => {
     if (pickupLocation && dropLocation) {
       getRoute(pickupLocation, dropLocation);
     }
-  }, [pickupLocation, dropLocation, selectedVehicle]);
+  }, [pickupLocation, dropLocation, selectedVehicle, getRoute]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -230,7 +230,7 @@ const MapBooking = ({ onBookingSubmit }) => {
     onBookingSubmit(bookingData);
   };
 
-  const resetLocations = () => {
+  // const resetLocations = () => {
     setPickupLocation(null);
     setDropLocation(null);
     setPickupAddress('');
@@ -244,7 +244,7 @@ const MapBooking = ({ onBookingSubmit }) => {
     setShowDropSuggestions(false);
     setSelectedVehicle(vehicleTypes[2]);
     setCurrentStep(1);
-  };
+  // };
 
   return (
     <div className="modern-booking">

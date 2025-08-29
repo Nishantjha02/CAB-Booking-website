@@ -4,12 +4,7 @@ import MapBooking from './MapBooking';
 
 const UserDashboard = ({ user, setUser }) => {
   const [bookings, setBookings] = useState([]);
-  const [showBookingForm, setShowBookingForm] = useState(false);
-  const [bookingData, setBookingData] = useState({
-    pickup: { address: '', lat: 0, lng: 0 },
-    destination: { address: '', lat: 0, lng: 0 },
-    fare: 0
-  });
+
 
   useEffect(() => {
     fetchBookings();
@@ -18,7 +13,7 @@ const UserDashboard = ({ user, setUser }) => {
       fetchBookings();
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchBookings]);
 
   const fetchBookings = async () => {
     try {
@@ -67,28 +62,7 @@ const UserDashboard = ({ user, setUser }) => {
     }
   };
 
-  const cancelBooking = async (bookingId) => {
-    if (!window.confirm('Are you sure you want to cancel this booking?')) {
-      return;
-    }
 
-    try {
-      const response = await fetch(`/api/booking/${bookingId}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ status: 'cancelled' })
-      });
-
-      if (response.ok) {
-        fetchBookings();
-      }
-    } catch (error) {
-      console.error('Error cancelling booking:', error);
-    }
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');

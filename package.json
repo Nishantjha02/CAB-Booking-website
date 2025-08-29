@@ -1,16 +1,16 @@
 {
-  "name": "cab-booking-app",
+  "name": "cab-booking-fullstack",
   "version": "1.0.0",
-  "description": "Full-stack cab booking application",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build",
-    "start": "cd backend && npm start",
-    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
-    "install-deps": "cd backend && npm install && cd ../frontend && npm install",
-    "vercel-build": "cd frontend && npm install && npm run build"
+    "build": "cd frontend && npm install && npm run build && cp -r build/* ../build/",
+    "dev": "cd frontend && npm start"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "concurrently": "^7.6.0"
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "cors": "^2.8.5",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "dotenv": "^16.3.1"
   }
 }

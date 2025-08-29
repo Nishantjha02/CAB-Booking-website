@@ -1,27 +1,27 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import MapBooking from './MapBooking';
 
 const UserDashboard = ({ user, setUser }) => {
-  const [bookings, setBookings] = useState([]);
+  // const [bookings, setBookings] = useState([]);
 
 
-  const fetchBookings = useCallback(async () => {
-    try {
-      const response = await fetch('/api/booking/user', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-      const data = await response.json();
+  // const fetchBookings = useCallback(async () => {
+  //   try {
+  //     const response = await fetch('/api/booking/user', {
+  //       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+  //     });
+  //     const data = await response.json();
       
-      setBookings(data);
-    } catch (error) {
-      console.error('Error fetching bookings:', error);
-    }
-  }, []);
+  //     setBookings(data);
+  //   } catch (error) {
+  //     console.error('Error fetching bookings:', error);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    fetchBookings();
-  }, [fetchBookings]);
+  // useEffect(() => {
+  //   fetchBookings();
+  // }, [fetchBookings]);
 
 
 

@@ -204,6 +204,7 @@ const MapBooking = ({ onBookingSubmit }) => {
     if (pickupLocation && dropLocation) {
       getRoute(pickupLocation, dropLocation);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pickupLocation, dropLocation]);
 
   // Recalculate fare when vehicle changes

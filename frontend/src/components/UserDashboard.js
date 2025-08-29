@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MapBooking from './MapBooking';
+import config from '../config';
 
 const UserDashboard = ({ user, setUser }) => {
   // const [bookings, setBookings] = useState([]);
@@ -27,7 +28,8 @@ const UserDashboard = ({ user, setUser }) => {
 
   const handleMapBooking = async (bookingData) => {
     try {
-      const response = await fetch('/api/booking', {
+      console.log('Booking API URL:', config.API_URL);
+      const response = await fetch(`${config.API_URL}/api/booking`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,6 +41,10 @@ const UserDashboard = ({ user, setUser }) => {
       if (response.ok) {
         alert('🎉 Ride booked successfully! Your booking has been confirmed.');
         window.location.href = '/booking-history';
+      } else {
+        const errorData = await response.json();
+        console.error('Booking error:', errorData);
+        alert(`❌ Failed to book ride: ${errorData.message || 'Please try again.'}`);
       }
     } catch (error) {
       console.error('Error creating booking:', error);

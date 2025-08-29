@@ -16,6 +16,7 @@ const Register = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log('API URL:', config.API_URL);
       const response = await fetch(`${config.API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

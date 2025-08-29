@@ -9,7 +9,14 @@ const bookingRoutes = require('./routes/booking');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://cab-booking-website.vercel.app',
+    /\.vercel\.app$/
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 // MongoDB connection

@@ -8,6 +8,7 @@ import UserDashboard from './components/UserDashboard';
 import DriverDashboard from './components/DriverDashboard';
 import BookingHistory from './components/BookingHistory';
 import About from './components/About';
+import config from './config';
 import './App.css';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      fetch('/api/auth/me', {
+      fetch(`${config.API_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => res.json())

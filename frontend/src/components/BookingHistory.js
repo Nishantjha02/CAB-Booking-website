@@ -1,42 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import config from '../config';
 
 const BookingHistory = ({ user, setUser }) => {
   const [bookings, setBookings] = useState([]);
-
-  useEffect(() => {
-    fetchBookings();
-    // Auto-refresh every 10 seconds to show status updates
-    const interval = setInterval(fetchBookings, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const fetchBookings = async () => {
-    try {
-      const response = await fetch('/api/booking/user', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      });
-      const data = await response.json();
-      setBookings(data);
-    } catch (error) {
-      console.error('Error fetching bookings:', error);
-    }
-  };
+  const [loading, setLoading] = useState(true);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setUser(null);
   };
 
+  const fetchBookings = async () => {
+    try {
+      const response = await fetch(`${config.API_URL}/api/booking/user`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      });
+      const data = await response.json();
+      setBookings(data);
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'pending': return '#ff9800';
+      case 'accepted': return '#2196f3';
+      case 'in-progress': return '#4caf50';
+      case 'completed': return '#8bc34a';
+      case 'cancelled': return '#f44336';
+      default: return '#757575';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'pending': return '⏳';
+      case 'accepted': return '✅';
+      case 'in-progress': return '🚗';
+      case 'completed': return '🏁';
+      case 'cancelled': return '❌';
+      default: return '📋';
+    }
+  };
+
   return (
-    <div className="dashboard">
+    <div className="booking-history">
       <header className="header">
-        <h1>🚗 Cab Booking App</h1>
+        <h1>🚗 My Rides</h1>
         <nav>
           <div>
             <span>Welcome, {user.name}!</span>
-            <Link to={user.role === 'driver' ? '/driver-dashboard' : '/user-dashboard'}>Book Ride</Link>
-            <Link to="/booking-history">My Rides</Link>
+            <Link to="/user-dashboard">Book Ride</Link>
             <Link to="/about">About</Link>
             <Link to="/">Home</Link>
             <button onClick={handleLogout}>Logout</button>
@@ -44,65 +66,78 @@ const BookingHistory = ({ user, setUser }) => {
         </nav>
       </header>
 
-      <main className="dashboard-content">
+      <main className="booking-history-content">
         <div className="page-header">
-          <h2>📋 My Booking History</h2>
-          <p>View all your past and current rides (Auto-refreshing)</p>
-          <button onClick={fetchBookings} className="btn-secondary" style={{marginTop: '1rem'}}>
-            🔄 Refresh Now
-          </button>
+          <h2>📋 Your Booking History</h2>
+          <p>Track all your rides and their status</p>
         </div>
 
-        <div className="bookings-section">
-          {bookings.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">🚗</div>
-              <h3>No rides yet!</h3>
-              <p>Book your first ride to get started</p>
-              <Link to="/user-dashboard" className="btn-primary">Book a Ride</Link>
-            </div>
-          ) : (
-            <div className="bookings-grid">
-              {bookings.map(booking => (
-                <div key={booking._id} className="booking-card-modern">
-                  <div className="booking-status-header">
-                    <span className={`status-badge ${booking.status}`}>{booking.status}</span>
-                    <span className="booking-date">{new Date(booking.createdAt).toLocaleDateString()}</span>
+        {loading ? (
+          <div className="loading">Loading your rides...</div>
+        ) : bookings.length === 0 ? (
+          <div className="no-bookings">
+            <div className="no-bookings-icon">🚗</div>
+            <h3>No rides yet!</h3>
+            <p>Book your first ride to see it here</p>
+            <Link to="/user-dashboard" className="btn-primary">Book a Ride</Link>
+          </div>
+        ) : (
+          <div className="bookings-list">
+            {bookings.map((booking) => (
+              <div key={booking._id} className="booking-card">
+                <div className="booking-header">
+                  <div className="booking-status" style={{ color: getStatusColor(booking.status) }}>
+                    {getStatusIcon(booking.status)} {booking.status.toUpperCase()}
+                  </div>
+                  <div className="booking-date">
+                    {new Date(booking.bookingTime).toLocaleDateString()}
+                  </div>
+                </div>
+                
+                <div className="booking-route">
+                  <div className="route-item">
+                    <span className="route-dot pickup">🟢</span>
+                    <div className="route-details">
+                      <div className="route-label">Pickup</div>
+                      <div className="route-address">{booking.pickup.address}</div>
+                    </div>
                   </div>
                   
-                  <div className="booking-route">
-                    <div className="route-point pickup">
-                      <span className="route-icon">🟢</span>
-                      <span className="route-address">{booking.pickup.address.split(',')[0]}</span>
-                    </div>
-                    <div className="route-line"></div>
-                    <div className="route-point drop">
-                      <span className="route-icon">🔴</span>
-                      <span className="route-address">{booking.destination.address.split(',')[0]}</span>
-                    </div>
-                  </div>
-
-                  <div className="booking-details">
-                    <div className="detail-item">
-                      <span className="detail-icon">💰</span>
-                      <span className="detail-text">${booking.fare}</span>
-                    </div>
-                    {booking.driver && (
-                      <div className="detail-item">
-                        <span className="detail-icon">👨‍✈️</span>
-                        <span className="detail-text">{booking.driver.name}</span>
-                      </div>
-                    )}
-                    <div className="detail-item">
-                      <span className="detail-icon">🕒</span>
-                      <span className="detail-text">{new Date(booking.createdAt).toLocaleString()}</span>
+                  <div className="route-line"></div>
+                  
+                  <div className="route-item">
+                    <span className="route-dot drop">🔴</span>
+                    <div className="route-details">
+                      <div className="route-label">Drop</div>
+                      <div className="route-address">{booking.destination.address}</div>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
+
+                <div className="booking-details">
+                  <div className="booking-fare">
+                    <span className="fare-label">Fare:</span>
+                    <span className="fare-amount">${booking.fare}</span>
+                  </div>
+                  
+                  {booking.driver && (
+                    <div className="booking-driver">
+                      <span className="driver-label">Driver:</span>
+                      <span className="driver-name">{booking.driver.name}</span>
+                    </div>
+                  )}
+                  
+                  <div className="booking-time">
+                    <span className="time-label">Booked:</span>
+                    <span className="time-value">
+                      {new Date(booking.bookingTime).toLocaleTimeString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );

@@ -40,8 +40,7 @@ const UserDashboard = ({ user, setUser }) => {
 
       if (response.ok) {
         alert('🎉 Ride booked successfully! Your booking has been confirmed.');
-        // Redirect to home instead of non-existent booking-history page
-        window.location.href = '/';
+        window.location.href = '/booking-history';
       } else {
         const errorData = await response.json();
         console.error('Booking error:', errorData);

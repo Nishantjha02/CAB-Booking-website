@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import MapBooking from './MapBooking';
 
@@ -6,41 +6,24 @@ const UserDashboard = ({ user, setUser }) => {
   const [bookings, setBookings] = useState([]);
 
 
-  useEffect(() => {
-    fetchBookings();
-    // Check for booking updates every 3 seconds
-    const interval = setInterval(() => {
-      fetchBookings();
-    }, 3000);
-    return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const fetchBookings = async () => {
+  const fetchBookings = useCallback(async () => {
     try {
       const response = await fetch('/api/booking/user', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await response.json();
       
-      // Check for newly accepted bookings
-      const previousBookings = bookings;
-      const newlyAccepted = data.filter(booking => 
-        booking.status === 'accepted' && 
-        previousBookings.find(prev => prev._id === booking._id && prev.status === 'pending')
-      );
-      
-      if (newlyAccepted.length > 0) {
-        newlyAccepted.forEach(booking => {
-          alert(`🎉 Great news! Your ride has been accepted by ${booking.driver?.name || 'a driver'}!`);
-        });
-      }
-      
       setBookings(data);
     } catch (error) {
       console.error('Error fetching bookings:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
+
+
 
   const handleMapBooking = async (bookingData) => {
     try {

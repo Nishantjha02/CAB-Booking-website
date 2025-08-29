@@ -25,7 +25,7 @@ const pickupIcon = new L.Icon({
 });
 
 const dropIcon = new L.Icon({
-  iconUrl: 'data:image/svg+xml;base64,' + btoa(`
+  iconUrl: 'data:image/svg+xml;base64=' + btoa(`
     <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
       <path d="M12.5 0C5.6 0 0 5.6 0 12.5c0 12.5 12.5 28.5 12.5 28.5s12.5-16 12.5-28.5C25 5.6 19.4 0 12.5 0z" fill="#F44336"/>
       <circle cx="12.5" cy="12.5" r="6" fill="white"/>
@@ -199,12 +199,20 @@ const MapBooking = ({ onBookingSubmit }) => {
     }
   };
 
+  // Only call getRoute when both locations are set
   useEffect(() => {
     if (pickupLocation && dropLocation) {
       getRoute(pickupLocation, dropLocation);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pickupLocation, dropLocation, selectedVehicle]);
+  }, [pickupLocation, dropLocation]);
+
+  // Recalculate fare when vehicle changes
+  useEffect(() => {
+    if (distance > 0) {
+      const fare = Math.round((selectedVehicle.baseRate + (distance * selectedVehicle.perKm)) * 100) / 100;
+      setEstimatedFare(fare);
+    }
+  }, [selectedVehicle, distance]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -230,22 +238,6 @@ const MapBooking = ({ onBookingSubmit }) => {
 
     onBookingSubmit(bookingData);
   };
-
-  // const resetLocations = () => {
-    setPickupLocation(null);
-    setDropLocation(null);
-    setPickupAddress('');
-    setDropAddress('');
-    setRouteCoordinates([]);
-    setDistance(0);
-    setEstimatedFare(0);
-    setPickupSuggestions([]);
-    setDropSuggestions([]);
-    setShowPickupSuggestions(false);
-    setShowDropSuggestions(false);
-    setSelectedVehicle(vehicleTypes[2]);
-    setCurrentStep(1);
-  // };
 
   return (
     <div className="modern-booking">
@@ -390,13 +382,7 @@ const MapBooking = ({ onBookingSubmit }) => {
                 <div 
                   key={vehicle.id}
                   className={`vehicle-card ${selectedVehicle.id === vehicle.id ? 'selected' : ''}`}
-                  onClick={() => {
-                    setSelectedVehicle(vehicle);
-                    if (distance > 0) {
-                      const newFare = Math.round((vehicle.baseRate + (distance * vehicle.perKm)) * 100) / 100;
-                      setEstimatedFare(newFare);
-                    }
-                  }}
+                  onClick={() => setSelectedVehicle(vehicle)}
                 >
                   <div className="vehicle-icon">{vehicle.icon}</div>
                   <div className="vehicle-info">

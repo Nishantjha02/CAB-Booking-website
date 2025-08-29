@@ -193,20 +193,20 @@ const Home = ({ user, setUser }) => {
           <div className="footer-section">
             <h4>Support</h4>
             <ul>
-              <li><a href="mailto:support@cabbooking.com">Help Center</a></li>
-              <li><a href="mailto:support@cabbooking.com">Contact Us</a></li>
-              <li><a href="mailto:support@cabbooking.com">Safety</a></li>
+              <li><a href="mailto:nishunishant0210@gmail.com">Help Center</a></li>
+              <li><a href="mailto:nishunishant0210@gmail.com">Contact Us</a></li>
+              <li><a href="mailto:nishunishant0210@gmail.com">Safety</a></li>
             </ul>
           </div>
           <div className="footer-section">
             <h4>Contact</h4>
-            <p>📞 +1 (555) 123-4567</p>
-            <p>✉️ support@cabbooking.com</p>
-            <p>📍 123 Main St, City, State</p>
+            <p>📞 +91 8851804251</p>
+            <p>✉️ nishunishant0210@gmail.com</p>
+            <p>📍 Delhi, India</p>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2024 Cab Booking App. All rights reserved.</p>
+          <p>&copy; 2025 Cab Booking App. All rights reserved.</p>
         </div>
       </footer>
     </div>

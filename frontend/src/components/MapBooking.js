@@ -203,7 +203,7 @@ const MapBooking = ({ onBookingSubmit }) => {
     if (pickupLocation && dropLocation) {
       getRoute(pickupLocation, dropLocation);
     }
-  }, [pickupLocation, dropLocation, selectedVehicle, getRoute]);
+  }, [pickupLocation, dropLocation, selectedVehicle]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

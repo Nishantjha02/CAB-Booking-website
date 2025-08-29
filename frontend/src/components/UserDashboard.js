@@ -13,7 +13,7 @@ const UserDashboard = ({ user, setUser }) => {
       fetchBookings();
     }, 3000);
     return () => clearInterval(interval);
-  }, [fetchBookings]);
+  }, []);
 
   const fetchBookings = async () => {
     try {

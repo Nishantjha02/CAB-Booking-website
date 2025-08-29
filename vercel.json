@@ -2,10 +2,5 @@
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/build",
   "devCommand": "cd frontend && npm start",
-  "installCommand": "cd frontend && npm install",
-  "functions": {
-    "api/*.js": {
-      "runtime": "@vercel/node"
-    }
-  }
+  "installCommand": "cd frontend && npm install"
 }

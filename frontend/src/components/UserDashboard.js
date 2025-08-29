@@ -66,7 +66,7 @@ const UserDashboard = ({ user, setUser }) => {
         <nav>
           <div>
             <span>Welcome, {user.name}!</span>
-
+            <Link to="/booking-history">My Rides</Link>
             <Link to="/about">About</Link>
             <Link to="/">Home</Link>
             <button onClick={handleLogout}>Logout</button>

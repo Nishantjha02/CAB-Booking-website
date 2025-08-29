@@ -18,7 +18,7 @@ const Home = ({ user, setUser }) => {
               <Link to={user.role === 'driver' ? '/driver-dashboard' : '/user-dashboard'}>
                 {user.role === 'driver' ? 'Driver Panel' : 'Book Ride'}
               </Link>
-
+              {user.role === 'user' && <Link to="/booking-history">My Rides</Link>}
               <Link to="/about">About</Link>
               <button onClick={handleLogout}>Logout</button>
             </div>

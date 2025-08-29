@@ -40,7 +40,8 @@ const UserDashboard = ({ user, setUser }) => {
 
       if (response.ok) {
         alert('🎉 Ride booked successfully! Your booking has been confirmed.');
-        window.location.href = '/booking-history';
+        // Redirect to home instead of non-existent booking-history page
+        window.location.href = '/';
       } else {
         const errorData = await response.json();
         console.error('Booking error:', errorData);
@@ -66,7 +67,7 @@ const UserDashboard = ({ user, setUser }) => {
         <nav>
           <div>
             <span>Welcome, {user.name}!</span>
-            <Link to="/booking-history">My Rides</Link>
+
             <Link to="/about">About</Link>
             <Link to="/">Home</Link>
             <button onClick={handleLogout}>Logout</button>

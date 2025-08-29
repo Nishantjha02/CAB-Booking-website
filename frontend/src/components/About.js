@@ -129,12 +129,13 @@ const About = ({ user, setUser }) => {
           </div>
           <div className="footer-section">
             <h4>Contact</h4>
-            <p>📞 +1 (555) 123-4567</p>
-            <p>✉️ support@cabbooking.com</p>
+            <p>📞 +91 8851804251</p>
+            <p>✉️ nishunishant0210@gmail.com</p>
+            <p>📍 Delhi, India</p>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2024 Cab Booking App. All rights reserved.</p>
+          <p>&copy; 2025 Cab Booking App. All rights reserved.</p>
         </div>
       </footer>
     </div>

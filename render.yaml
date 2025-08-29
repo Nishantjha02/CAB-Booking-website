@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: cab-booking-backend
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://cabbooking:cabbooking123@cluster0.mongodb.net/cab-booking
+      - key: JWT_SECRET
+        value: cab_booking_jwt_secret_2024_production_key
+      - key: NODE_ENV
+        value: production

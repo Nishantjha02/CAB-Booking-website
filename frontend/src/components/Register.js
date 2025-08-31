@@ -16,12 +16,6 @@ const Register = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // If user selected driver, redirect to driver registration page
-    if (formData.role === 'driver') {
-      navigate('/driver-register');
-      return;
-    }
-    
     try {
       console.log('API URL:', config.API_URL);
       const response = await fetch(`${config.API_URL}/api/auth/register`, {
@@ -84,13 +78,20 @@ const Register = ({ setUser }) => {
         
         <select
           value={formData.role}
-          onChange={(e) => setFormData({...formData, role: e.target.value})}
+          onChange={(e) => {
+            const newRole = e.target.value;
+            setFormData({...formData, role: newRole});
+            // Immediately redirect to driver registration if driver is selected
+            if (newRole === 'driver') {
+              navigate('/driver-register');
+            }
+          }}
         >
           <option value="user">User</option>
           <option value="driver">Driver</option>
         </select>
         
-        <button type="submit">Register</button>
+        <button type="submit">Register as User</button>
         
         <p>Already have an account? <Link to="/login">Login</Link></p>
         <Link to="/">← Back to Home</Link>

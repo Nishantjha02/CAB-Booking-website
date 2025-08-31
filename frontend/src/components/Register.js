@@ -15,6 +15,13 @@ const Register = ({ setUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // If user selected driver, redirect to driver registration page
+    if (formData.role === 'driver') {
+      navigate('/driver-register');
+      return;
+    }
+    
     try {
       console.log('API URL:', config.API_URL);
       const response = await fetch(`${config.API_URL}/api/auth/register`, {
@@ -26,14 +33,9 @@ const Register = ({ setUser }) => {
       const data = await response.json();
       
       if (response.ok) {
-        if (formData.role === 'driver') {
-          // Redirect to driver registration for complete setup
-          navigate('/driver-register');
-        } else {
-          localStorage.setItem('token', data.token);
-          setUser(data.user);
-          navigate('/');
-        }
+        localStorage.setItem('token', data.token);
+        setUser(data.user);
+        navigate('/');
       } else {
         setError(data.message);
       }

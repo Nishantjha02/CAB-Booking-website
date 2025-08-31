@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MapBooking from './MapBooking';
 import config from '../config';
 
 const UserDashboard = ({ user, setUser }) => {
+  const navigate = useNavigate();
   // const [bookings, setBookings] = useState([]);
 
 
@@ -40,7 +41,7 @@ const UserDashboard = ({ user, setUser }) => {
 
       if (response.ok) {
         alert('🎉 Ride booked successfully! Your booking has been confirmed.');
-        window.location.href = '/booking-history';
+        navigate('/booking-history');
       } else {
         const errorData = await response.json();
         console.error('Booking error:', errorData);

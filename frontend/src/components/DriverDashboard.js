@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import config from '../config';
 
 const DriverDashboard = ({ user, setUser }) => {
   const [availableBookings, setAvailableBookings] = useState([]);
@@ -18,7 +19,7 @@ const DriverDashboard = ({ user, setUser }) => {
 
   const fetchAvailableBookings = async () => {
     try {
-      const response = await fetch('/api/booking/available', {
+      const response = await fetch(`${config.API_URL}/api/booking/available`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await response.json();
@@ -31,7 +32,7 @@ const DriverDashboard = ({ user, setUser }) => {
 
   const fetchMyBookings = async () => {
     try {
-      const response = await fetch('/api/booking/driver', {
+      const response = await fetch(`${config.API_URL}/api/booking/driver`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await response.json();
@@ -44,7 +45,7 @@ const DriverDashboard = ({ user, setUser }) => {
 
   const acceptBooking = async (bookingId) => {
     try {
-      const response = await fetch(`/api/booking/${bookingId}/accept`, {
+      const response = await fetch(`${config.API_URL}/api/booking/${bookingId}/accept`, {
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ const DriverDashboard = ({ user, setUser }) => {
 
   const updateBookingStatus = async (bookingId, status) => {
     try {
-      const response = await fetch(`/api/booking/${bookingId}/status`, {
+      const response = await fetch(`${config.API_URL}/api/booking/${bookingId}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ const DriverDashboard = ({ user, setUser }) => {
 
   const updateDriverAvailability = async (isAvailable) => {
     try {
-      const response = await fetch('/api/booking/availability', {
+      const response = await fetch(`${config.API_URL}/api/booking/availability`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
